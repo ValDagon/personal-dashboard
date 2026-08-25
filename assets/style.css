@@ -1,15 +1,18 @@
-/* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V4 */
-/* Shift-board: three warehouse lanes plus a ClickHouse tally strip. */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+/* Shift-board HUD: navy ops console. Glow only on live /now, mix numerals, lane edge, focus. */
 
 :root {
-  --paper: #eef1f4;
-  --ink: #1a2332;
-  --muted: #5b6573;
-  --rule: #c5ccd6;
-  --panel: #f7f8fa;
-  --ochre: #c45c26;
-  --steel: #2f5c8f;
-  --moss: #3d6b4f;
+  --paper: #0b1220;
+  --panel: #121a2c;
+  --ink: #e8f1ff;
+  --muted: #8aa0b8;
+  --rule: #1a3d52;
+  --ochre: #ffb14a;
+  --steel: #3ec4ff;
+  --moss: #ff6bb5;
+  --glow-ochre: 0 0 14px color-mix(in srgb, var(--ochre) 40%, transparent);
+  --glow-steel: 0 0 14px color-mix(in srgb, var(--steel) 40%, transparent);
+  --glow-moss: 0 0 14px color-mix(in srgb, var(--moss) 40%, transparent);
   --font-display: "IBM Plex Sans", "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --radius: 2px;
@@ -42,6 +45,7 @@ h1, h2, h3, h4 {
   font-style: normal !important;
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+  text-wrap: pretty;
 }
 
 .desk {
@@ -53,6 +57,7 @@ h1, h2, h3, h4 {
   font-weight: 600;
   margin: 0.15rem 0 0.4rem;
   overflow-wrap: anywhere;
+  color: var(--ink);
 }
 
 .kicker {
@@ -66,7 +71,7 @@ h1, h2, h3, h4 {
 
 .lede {
   max-width: 44rem;
-  color: var(--muted);
+  color: var(--ink);
   margin: 0 0 1.25rem;
   line-height: 1.45;
 }
@@ -103,9 +108,18 @@ h1, h2, h3, h4 {
   min-width: 0;
 }
 
-.now-freelance .now-v { color: var(--ochre); }
-.now-work .now-v { color: var(--steel); }
-.now-hobby .now-v { color: var(--moss); }
+.now-freelance .now-v {
+  color: var(--ochre);
+  text-shadow: var(--glow-ochre);
+}
+.now-work .now-v {
+  color: var(--steel);
+  text-shadow: var(--glow-steel);
+}
+.now-hobby .now-v {
+  color: var(--moss);
+  text-shadow: var(--glow-moss);
+}
 
 .now-stamp {
   font-family: var(--font-mono);
@@ -147,11 +161,21 @@ h1, h2, h3, h4 {
   font-weight: 600;
   line-height: 1.1;
   margin: 0.1rem 0;
+  font-variant-numeric: tabular-nums;
 }
 
-.mix-freelance .mix-n { color: var(--ochre); }
-.mix-work .mix-n { color: var(--steel); }
-.mix-hobby .mix-n { color: var(--moss); }
+.mix-freelance .mix-n {
+  color: var(--ochre);
+  text-shadow: var(--glow-ochre);
+}
+.mix-work .mix-n {
+  color: var(--steel);
+  text-shadow: var(--glow-steel);
+}
+.mix-hobby .mix-n {
+  color: var(--moss);
+  text-shadow: var(--glow-moss);
+}
 
 .mix-d {
   font-family: var(--font-mono);
@@ -184,7 +208,7 @@ h1, h2, h3, h4 {
 
 .lg-now { background: var(--ink); border-color: var(--ink); }
 .lg-queued { background: var(--ochre); border-color: var(--ochre); }
-.lg-paused { background: #8a93a0; border-color: #8a93a0; }
+.lg-paused { background: var(--muted); border-color: var(--muted); }
 .lg-done { background: var(--moss); border-color: var(--moss); }
 
 .world-switch {
@@ -209,6 +233,14 @@ h1, h2, h3, h4 {
   text-overflow: ellipsis;
 }
 
+.tab:hover {
+  background: color-mix(in srgb, var(--ink) 6%, var(--panel));
+}
+
+.tab:active {
+  background: color-mix(in srgb, var(--ink) 10%, var(--panel));
+}
+
 .tab-freelance { box-shadow: inset 0 3px 0 var(--ochre); }
 .tab-work { box-shadow: inset 0 3px 0 var(--steel); }
 .tab-hobby { box-shadow: inset 0 3px 0 var(--moss); }
@@ -216,6 +248,22 @@ h1, h2, h3, h4 {
 .tab:focus-visible {
   outline: 2px solid var(--steel);
   outline-offset: 2px;
+  box-shadow: var(--glow-steel);
+}
+
+.tab-freelance:focus-visible {
+  outline-color: var(--ochre);
+  box-shadow: inset 0 3px 0 var(--ochre), var(--glow-ochre);
+}
+
+.tab-work:focus-visible {
+  outline-color: var(--steel);
+  box-shadow: inset 0 3px 0 var(--steel), var(--glow-steel);
+}
+
+.tab-hobby:focus-visible {
+  outline-color: var(--moss);
+  box-shadow: inset 0 3px 0 var(--moss), var(--glow-moss);
 }
 
 .triptych {
@@ -225,6 +273,7 @@ h1, h2, h3, h4 {
 }
 
 .lane {
+  position: relative;
   min-width: 0;
   background: var(--panel);
   border: 1px solid var(--rule);
@@ -233,16 +282,32 @@ h1, h2, h3, h4 {
 
 .lane-freelance {
   border-top: 4px solid var(--ochre);
-  background: color-mix(in srgb, var(--ochre) 9%, var(--panel));
+  background: color-mix(in srgb, var(--ochre) 7%, var(--panel));
 }
 .lane-work {
   border-top: 4px solid var(--steel);
-  background: color-mix(in srgb, var(--steel) 9%, var(--panel));
+  background: color-mix(in srgb, var(--steel) 7%, var(--panel));
 }
 .lane-hobby {
   border-top: 4px solid var(--moss);
-  background: color-mix(in srgb, var(--moss) 9%, var(--panel));
+  background: color-mix(in srgb, var(--moss) 7%, var(--panel));
 }
+
+.lane-freelance::before,
+.lane-work::before,
+.lane-hobby::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  pointer-events: none;
+}
+
+.lane-freelance::before { box-shadow: var(--glow-ochre); }
+.lane-work::before { box-shadow: var(--glow-steel); }
+.lane-hobby::before { box-shadow: var(--glow-moss); }
 
 .lane-head {
   display: flex;
@@ -256,6 +321,7 @@ h1, h2, h3, h4 {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 600;
+  color: var(--ink);
 }
 
 .mix {
@@ -286,6 +352,7 @@ h1, h2, h3, h4 {
   font-weight: 600;
   overflow-wrap: anywhere;
   min-width: 0;
+  color: var(--ink);
 }
 
 .pill {
@@ -297,6 +364,7 @@ h1, h2, h3, h4 {
   padding: 0.12rem 0.35rem;
   white-space: nowrap;
   flex: 0 0 auto;
+  color: var(--ink);
 }
 
 .status-now .pill { border-color: var(--ink); background: var(--ink); color: var(--paper); }
@@ -309,6 +377,10 @@ h1, h2, h3, h4 {
   font-size: 0.9rem;
   line-height: 1.4;
   margin: 0.4rem 0 0;
+}
+
+.blurb {
+  color: var(--ink);
 }
 
 .honest {
@@ -335,6 +407,7 @@ h1, h2, h3, h4 {
   font-size: 0.68rem;
   border: 1px solid var(--rule);
   padding: 0.08rem 0.32rem;
+  color: var(--ink);
 }
 
 .links {
@@ -350,9 +423,14 @@ h1, h2, h3, h4 {
   font-size: 0.82rem;
 }
 
+.ext:hover {
+  color: color-mix(in srgb, var(--steel) 80%, var(--ink));
+}
+
 .ext:focus-visible {
   outline: 2px solid var(--steel);
   outline-offset: 2px;
+  box-shadow: var(--glow-steel);
 }
 
 .archive {
@@ -376,6 +454,14 @@ h1, h2, h3, h4 {
 .archive summary:focus-visible {
   outline: 2px solid var(--steel);
   outline-offset: 2px;
+  box-shadow: var(--glow-steel);
+}
+
+[data-testid="stDownloadButton"] button:focus-visible,
+[data-testid="stExpander"] summary:focus-visible {
+  outline: 2px solid var(--steel) !important;
+  outline-offset: 2px;
+  box-shadow: var(--glow-steel);
 }
 
 @media (max-width: 899px) {
@@ -404,7 +490,9 @@ h1, h2, h3, h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
   }
 }

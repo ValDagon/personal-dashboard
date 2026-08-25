@@ -14,10 +14,14 @@ from board.render import render_board
 ROOT = Path(__file__).resolve().parent
 CSS = (ROOT / "assets" / "style.css").read_text(encoding="utf-8")
 WORLD_ORDER = ["freelance", "work", "hobby"]
+SCENE = "#0B1220"
+INK = "#E8F1FF"
+RULE = "#1A3D52"
+MUTED = "#8AA0B8"
 WORLD_COLORS = {
-    "freelance": "#c45c26",
-    "work": "#2f5c8f",
-    "hobby": "#3d6b4f",
+    "freelance": "#FFB14A",
+    "work": "#3EC4FF",
+    "hobby": "#FF6BB5",
 }
 
 st.set_page_config(
@@ -73,19 +77,19 @@ fig_open.update_layout(
     title="Открытые карточки",
     margin=dict(l=8, r=8, t=40, b=8),
     height=200,
-    paper_bgcolor="#eef1f4",
-    plot_bgcolor="#eef1f4",
-    font=dict(family="IBM Plex Sans, sans-serif", color="#1a2332", size=13),
-    xaxis=dict(title="штук", dtick=1, gridcolor="#c5ccd6"),
+    paper_bgcolor=SCENE,
+    plot_bgcolor=SCENE,
+    font=dict(family="IBM Plex Sans, sans-serif", color=INK, size=13),
+    xaxis=dict(title="штук", dtick=1, gridcolor=RULE),
     yaxis=dict(title=""),
     showlegend=False,
 )
 
 fig_status = go.Figure()
 status_cols = [
-    ("now_n", "сейчас", "#1a2332"),
-    ("queued_n", "очередь", "#c45c26"),
-    ("paused_n", "пауза", "#8a93a0"),
+    ("now_n", "сейчас", INK),
+    ("queued_n", "очередь", WORLD_COLORS["freelance"]),
+    ("paused_n", "пауза", MUTED),
 ]
 for col, name, color in status_cols:
     fig_status.add_trace(
@@ -102,10 +106,10 @@ fig_status.update_layout(
     barmode="stack",
     margin=dict(l=8, r=8, t=40, b=8),
     height=220,
-    paper_bgcolor="#eef1f4",
-    plot_bgcolor="#eef1f4",
-    font=dict(family="IBM Plex Sans, sans-serif", color="#1a2332", size=13),
-    yaxis=dict(title="штук", dtick=1, gridcolor="#c5ccd6"),
+    paper_bgcolor=SCENE,
+    plot_bgcolor=SCENE,
+    font=dict(family="IBM Plex Sans, sans-serif", color=INK, size=13),
+    yaxis=dict(title="штук", dtick=1, gridcolor=RULE),
     xaxis=dict(title=""),
     legend=dict(orientation="h", y=-0.2),
 )

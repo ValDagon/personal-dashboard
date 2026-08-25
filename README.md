@@ -9,7 +9,7 @@
 
 Резюме перечисляет инструменты. Этот репозиторий показывает, как ими собирается обзор: YAML как источник, pandas как таблица, **ClickHouse SQL** как слой фактов, Excel на выходе, экран на Streamlit.
 
-Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard).
+Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard). Ветка `hud-neon` — тёмная ops HUD; `main` пока светлая бумага.
 
 ```
 +---------------- /now ------------------+
