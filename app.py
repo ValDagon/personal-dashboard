@@ -72,7 +72,7 @@ st.plotly_chart(fig, width="stretch")
 st.download_button(
     label="Скачать открытые в Excel",
     data=open_projects_xlsx(board.open_frame()),
-    file_name="three-worlds-open.xlsx",
+    file_name="personal-dashboard-open.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 )
 

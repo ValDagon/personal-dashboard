@@ -47,7 +47,7 @@
 | График | Plotly, только счёт открытых |
 | Выгрузка | openpyxl, `.xlsx` |
 
-Нет облачного деплоя этой доски. Смотреть локально. Код: [github.com/ValDagon/personal-dashbord](https://github.com/ValDagon/personal-dashbord).
+Нет облачного деплоя этой доски. Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard).
 
 ## Как запустить
 

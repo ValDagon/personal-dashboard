@@ -1,4 +1,4 @@
-# AGENTS.md — three-worlds
+# AGENTS.md — personal-dashboard
 
 > Сначала этот файл → `docs/PROGRESS.md`.
 
