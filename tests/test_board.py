@@ -34,7 +34,7 @@ def test_three_worlds_and_statuses() -> None:
 def test_second_load_does_not_collide_on_projects_table() -> None:
     first = load_board(YAML)
     second = load_board(YAML)
-    assert len(first.frame) == len(second.frame) == 9
+    assert len(first.frame) == len(second.frame) == 10
     assert first.engine.version()
     assert second.engine.version()
     first.engine.close()
