@@ -4,12 +4,13 @@
 
 ## Now
 
-Класс L. Спека review. UI не писать. Публичный GitHub не создавать, пока человек не подтвердит анонимизацию имён.
+Приложение собрано. Выкладка: исходники на GitHub. UI по-русски.
 
 ## Journal
 
 | Date | Event |
 |------|---------|
-| 2026-08-25 | **Bootstrap.** Crystal envelope: `AGENTS.md` + `.cursor/rules` + this journal. Стек: Python/pandas/DuckDB/Streamlit/Plotly (BI найма, не Next.js). Спека `docs/10-product-spec.md` review. Next: гейт человека. |
+| 2026-08-25 | **Bootstrap.** Конверт репо и черновик спеки. |
+| 2026-08-25 | **Гейт.** RU, GitHub-only, adult-bi в хобби, найм без кейсов, HR-бот без фамилий. Streamlit-триптих + pytest. |
 
 New rows go **at the end**.

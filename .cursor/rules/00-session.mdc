@@ -5,9 +5,8 @@ alwaysApply: true
 
 # Session law
 
-- Read root `AGENTS.md` §0.1 NOW, then `docs/PROGRESS.md` (header + last journal rows).
+- Read root `AGENTS.md` §0.1 NOW, then `docs/PROGRESS.md`.
 - No secrets, no `.env`. Commit only if the human asked.
 - Stay inside the current project. Exception: `~/.cursor/skills` mirror.
-- Do not write to `/Users/valentin/Work/base` from this window.
-- Human wants max delegate: do the work; they gate. Do not assign homework coding.
-- Do not implement production Streamlit UI until `docs/10-product-spec.md` is canonical.
+- Do not invent hire-job case studies. Do not put private client surnames in git.
+- Public UI is Russian. Hosting of this board is GitHub source only.

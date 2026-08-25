@@ -1,88 +1,83 @@
-# Three worlds
+# Три мира
 
-Personal ops board for a Junior BI analyst: **Freelance · Work · Hobby** as three separate lives on one screen.
+Доска Junior BI-аналитика: **фриланс, работа, хобби** как три отдельных мира. Карточка = целый проект. Открытое видно сразу. Закрытое лежит в свёрнутом архиве мира.
 
-> Spec is in review (`docs/10-product-spec.md`). The app UI is not shipped yet. This README is the hiring-facing envelope.
+Нанимателю: это не лендинг и не набор ноутбуков. Это рабочая доска на стеке, которым я пользуюсь в найме.
 
-## Why this exists
+## Зачем
 
-Resume shows tools. This repo shows **how those tools organize real work**: whole projects, not task soup; three worlds that never collapse into one feed; an archive you can ignore until you need it.
+Резюме называет инструменты. Этот репозиторий показывает, как ими собирается обзор: YAML как источник, pandas, SQL в DuckDB, Excel на выходе, экран на Streamlit.
 
-Stack matches the day job, not a side-product frontend: Python, pandas, SQL (DuckDB), Excel export, Streamlit as the BI web surface (same family as the `adult-bi` case). Not Next.js.
-
-## What you will see (layout)
+## Что на экране
 
 ```
-+--------------------------- /now ticker ---------------------------+
-| Freelance: …     Work: …     Hobby: …              updated: date  |
-+------------------+-------------------+---------------------------+
-| FREELANCE        | WORK              | HOBBY                     |
-| open cards       | open cards        | open cards                |
-| [archive folded] | [archive folded]  | [archive folded]          |
-+------------------+-------------------+---------------------------+
++---------------- /now ------------------+
+| Фриланс: …   Работа: …   Хобби: …      |
++------------------+------------------+------------------+
+| ФРИЛАНС          | РАБОТА           | ХОББИ            |
+| открытые карточки| открытые карточки| открытые карточки|
+| [архив свёрнут]  | [архив свёрнут]  | [архив свёрнут]  |
++------------------+------------------+------------------+
 ```
 
-On a phone the worlds become tabs. Cards stay whole projects. Closed work lives in a collapsed archive per world.
+На узком экране миры переключаются вкладками, не смешиваются в одну ленту.
 
-### Status legend
+### Статусы
 
-| RU | Meaning |
+| Статус | Смысл |
 |---|---|
-| сейчас | in motion |
-| очередь | next, not started |
-| пауза | parked |
-| сделано | finished (self) |
-| сдано клиенту | handed to a client |
+| сейчас | в работе |
+| очередь | следующее, ещё не взял |
+| пауза | стоит |
+| сделано | закрыл сам |
+| сдано клиенту | отдал заказчику |
 
-## Stack
+Сделано и сдано клиенту живут только в архиве.
 
-| Layer | Choice | Why |
-|---|---|---|
-| Cards SSOT | YAML | git-diffable, no database secrets |
-| Tables | pandas | hiring stack |
-| SQL | DuckDB over that table | show SQL without a warehouse |
-| UI | Streamlit + custom CSS | BI web app; Streamlit already in the BI case |
-| Charts | Plotly | optional counts, no vanity KPIs |
-| Export | openpyxl `.xlsx` | how analysts actually deliver |
-| Not used | Next.js, Tableau Cloud, ClickHouse Cloud | out of hiring-stack / privacy / disk |
+Проекты найма в публичную доску не выкладываю: в колонке «Работа» одна честная карточка роли, без выдуманных тикетов.
 
-## Data model
+## Стек
 
-`data/projects.yaml` — one document per project:
+| Слой | Чем |
+|---|---|
+| Данные | YAML |
+| Таблицы | pandas |
+| SQL | DuckDB |
+| Экран | Streamlit + CSS |
+| График | Plotly, только счёт открытых |
+| Выгрузка | openpyxl, `.xlsx` |
 
-- `id`, `world` (`freelance` \| `work` \| `hobby`)
-- `status` (see legend)
-- `public_title`, `blurb` (safe for GitHub)
-- `stack` (list of tools)
-- `updated` (ISO date)
-- `links` (public URLs only)
-- `confidence` (`high` \| `medium` \| `low`)
+Нет облачного деплоя этой доски. Смотреть локально. Код на GitHub.
 
-Private client names do not belong in this file.
-
-## How to run (after implement)
+## Как запустить
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Tests (data layer): `pytest`
+Тесты слоя данных:
 
-## Architecture
+```bash
+pytest
+```
 
-YAML → pandas → DuckDB views (`open_by_world`, `archive_by_world`) → Streamlit triptych. Details-on-demand on card click. See `docs/10-product-spec.md`.
+## Данные
 
-## Screenshots
+`data/projects.yaml` — одна запись на проект:
 
-_Placeholder — add after the first UI gate. Desktop 1280 and mobile 375._
+- `world`: `freelance` · `work` · `hobby`
+- `status`: `now` · `queued` · `paused` · `done` · `delivered`
+- `public_title`, `blurb`, `stack`, `updated`, `links` (только публичные URL)
 
-## License
+Имена заказчиков, которых нельзя светить, в файле нет.
 
-MIT. See `LICENSE`.
+## Архитектура
 
-## Topics (when the GitHub repo is created)
+YAML → pandas → представления DuckDB `open_by_world` и `archive_by_world` → HTML-триптих. Кнопка выгрузки открытых в Excel.
 
-`python` `pandas` `duckdb` `streamlit` `plotly` `business-intelligence` `portfolio` `personal-dashboard`
+## Лицензия
+
+MIT. См. `LICENSE`.

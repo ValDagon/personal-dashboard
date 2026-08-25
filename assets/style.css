@@ -1,0 +1,322 @@
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 */
+/* Shift-board: three warehouse lanes. Tokens only after this block. */
+
+:root {
+  --paper: #eef1f4;
+  --ink: #1a2332;
+  --muted: #5b6573;
+  --rule: #c5ccd6;
+  --panel: #f7f8fa;
+  --ochre: #c45c26;
+  --steel: #2f5c8f;
+  --moss: #3d6b4f;
+  --font-display: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --radius: 2px;
+}
+
+html,
+body,
+.stApp,
+[data-testid="stAppViewContainer"] {
+  background: var(--paper) !important;
+  color: var(--ink);
+  font-family: var(--font-display);
+  overflow-x: clip;
+}
+
+[data-testid="stHeader"],
+#MainMenu,
+footer,
+[data-testid="stToolbar"],
+[data-testid="stDecoration"] {
+  display: none !important;
+}
+
+.block-container {
+  padding: 1rem 1rem 3rem !important;
+  max-width: 88rem !important;
+}
+
+h1, h2, h3, h4 {
+  font-style: normal !important;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.desk {
+  min-width: 0;
+}
+
+.mast h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  margin: 0.15rem 0 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+
+.lede {
+  max-width: 40rem;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+  line-height: 1.45;
+}
+
+.now {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.7rem 0;
+  margin-bottom: 1rem;
+}
+
+.now-cell {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.6rem;
+  min-width: 0;
+  align-items: baseline;
+}
+
+.now-k {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.now-v {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.now-freelance .now-v { color: var(--ochre); }
+.now-work .now-v { color: var(--steel); }
+.now-hobby .now-v { color: var(--moss); }
+
+.now-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin: 0.2rem 0 0;
+}
+
+.world-switch {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 0.9rem;
+}
+
+.tab {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  padding: 0.55rem 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--panel);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--steel);
+  outline-offset: 2px;
+}
+
+.triptych {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.lane {
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: 0.85rem 0.85rem 1rem;
+}
+
+.lane-freelance { border-top: 4px solid var(--ochre); }
+.lane-work { border-top: 4px solid var(--steel); }
+.lane-hobby { border-top: 4px solid var(--moss); }
+
+.lane-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.lane-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.card {
+  border: 1px solid var(--rule);
+  padding: 0.7rem 0.75rem 0.55rem;
+  margin: 0 0 0.55rem;
+  background: var(--paper);
+  min-width: 0;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.card-head h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.pill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  border: 1px solid var(--rule);
+  padding: 0.12rem 0.35rem;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.status-now .pill { border-color: var(--ink); }
+.status-queued .pill { color: var(--ochre); border-color: var(--ochre); }
+.status-paused .pill { color: var(--muted); }
+.status-done .pill,
+.status-delivered .pill { color: var(--moss); border-color: var(--moss); }
+
+.blurb, .honest, .meta, .empty {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0.4rem 0 0;
+}
+
+.honest {
+  border-left: 3px solid var(--steel);
+  padding-left: 0.55rem;
+  color: var(--ink);
+}
+
+.meta, .empty {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin-top: 0.45rem;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  border: 1px solid var(--rule);
+  padding: 0.08rem 0.32rem;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.4rem;
+}
+
+.ext {
+  color: var(--steel);
+  overflow-wrap: anywhere;
+  font-size: 0.82rem;
+}
+
+.ext:focus-visible {
+  outline: 2px solid var(--steel);
+  outline-offset: 2px;
+}
+
+.archive {
+  margin-top: 0.7rem;
+  border-top: 1px dashed var(--rule);
+  padding-top: 0.45rem;
+}
+
+.archive summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  list-style: none;
+}
+
+.archive summary::-webkit-details-marker { display: none; }
+
+.archive summary:focus-visible {
+  outline: 2px solid var(--steel);
+  outline-offset: 2px;
+}
+
+@media (max-width: 899px) {
+  .lane { display: none; }
+  .triptych:not(:has(.lane:target)) .lane:first-child { display: block; }
+  .lane:target { display: block; }
+}
+
+@media (min-width: 900px) {
+  .now {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+  }
+  .now-stamp {
+    grid-column: 1 / -1;
+  }
+  .world-switch { display: none; }
+  .triptych {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+  .lane { display: block !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

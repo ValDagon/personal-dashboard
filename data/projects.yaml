@@ -1,123 +1,87 @@
-# Seed inventory — public-safe titles only
-# confidence: high = vault+disk; medium = inferred; low = guess, needs human
-# Do not put tokens, emails, employer legal names, or raw client names here.
-
 updated: 2026-08-25
 
 projects:
-  # --- freelance ---
   - id: hr-telegram-sheets
     world: freelance
-    status: waiting
-    public_title: HR Telegram bot + Google Sheets
-    blurb: Marketplace order. MVP in a private repo. Waiting on client bot token and service account for a live run.
+    status: queued
+    public_title: HR-бот
+    blurb: "Заказ с биржи. Telegram-бот для HR плюс Google Sheets как учёт. MVP сдан в отдельном репозитории. Живой прогон ждёт токен бота и сервисный аккаунт заказчика."
     stack: [Python, aiogram, Google Sheets, pytest]
     updated: 2026-08-24
     links: []
-    confidence: high
-    notes_internal: vault journal/job-hr-tg-bot; code sibling job-2026-08-24-hr-tg-bot. Status could be delivered if human says MVP was accepted.
 
   - id: food-calories-tg
     world: freelance
-    status: waiting
-    public_title: Food photo Telegram bot (calories / macros)
-    blurb: Marketplace demo. Vision model via OpenRouter. Public demo URL exists; client handoff unknown.
-    stack: [Python, aiogram, FastAPI, Postgres, Vercel, Docker]
+    status: queued
+    public_title: "Бот фото еды в КБЖУ"
+    blurb: "Демо Telegram-бота. Фото блюда, оценка калорий и макросов диапазонами. Код у заказчика не публикую. Стек демо — Python, webhook, Postgres."
+    stack: [Python, aiogram, FastAPI, Postgres, Docker]
     updated: 2026-08-24
-    links:
-      - https://kwork-spiridonova.vercel.app
-    confidence: medium
-    notes_internal: journal/kwork-spiridonova. Anonymize "Spiridonova" in public copy. Confirm if demo URL may stay.
+    links: []
 
   - id: stock-csv-oneoff
     world: freelance
-    status: done
-    public_title: Daily SKU stock from CSV
-    blurb: One-shot pandas job on May–July 2025 extracts. Delivered 2026-08-19. No GitHub.
+    status: delivered
+    public_title: "Подневные остатки SKU из CSV"
+    blurb: "Разовый расчёт товарных остатков по выгрузкам май–июль 2025. Стек pandas. Сдано 2026-08-19. Репозитория нет."
     stack: [Python, pandas, CSV]
     updated: 2026-08-19
     links: []
-    confidence: high
-    notes_internal: areas/stack-and-accounts task_01
 
-  # refused tdata/session order is NOT a project — omit
-
-  # --- work ---
   - id: bi-seat
     world: work
     status: now
-    public_title: Junior BI analyst seat
-    blurb: Day job 40h. Stack Python / pandas / Excel / SQL / Tableau Desktop. Named current deliverables unknown — placeholder until human lists them.
+    public_title: "Junior BI-аналитик"
+    blurb: "Основная работа, около 40 часов в неделю. Python, pandas, Excel, SQL, Tableau Desktop. Конкретные проекты найма не публикую."
     stack: [Python, pandas, Excel, SQL, Tableau Desktop]
     updated: 2026-08-25
     links: []
-    confidence: low
-    notes_internal: operator.md has no employer project names
+    hire_private: true
 
   - id: adult-income-case
-    world: work
+    world: hobby
     status: paused
-    public_title: Adult income BI case
-    blurb: End-to-end case: pandas, ClickHouse, Excel, optional Streamlit/React UI, Tableau last. GitHub private. World assignment (work vs hobby) is a gate.
+    public_title: "Кейс Adult Income"
+    blurb: "Учебно-боевой BI-контур. pandas, ClickHouse, Excel, Streamlit, Tableau. Репозиторий приватный, ссылку не кладу."
     stack: [Python, pandas, ClickHouse, Excel, Streamlit, Tableau]
     updated: 2026-08-24
     links: []
-    confidence: medium
-    notes_internal: ValDagon/adult-bi private. Do not assume public clone.
 
-  # --- hobby ---
   - id: relomap
     world: hobby
     status: now
     public_title: Relomap
-    blurb: Own relocation product. Live on Vercel. Notes live in Crystal vault; code is a sibling repo.
-    stack: [Next.js, Supabase, Vercel, Telegram]
+    blurb: "Свой продукт про релокацию. Живой сайт. Стек продукта другой, чем у этой доски — веб, Postgres, Telegram-гейт."
+    stack: [Next.js, Postgres, Vercel, Telegram]
     updated: 2026-08-23
     links:
       - https://relomap.vercel.app
-    confidence: high
-    notes_internal: not Crystal Live; product repo /Users/valentin/Work/relomap
 
   - id: personal-card
     world: hobby
     status: done
-    public_title: Personal site
-    blurb: Multilingual card. GitHub Pages. Design iterated 2026-08-24.
+    public_title: "Личная визитка"
+    blurb: "Мультиязычная страница. GitHub Pages. Стек HTML, CSS, JS."
     stack: [HTML, CSS, JS, GitHub Pages]
     updated: 2026-08-24
     links:
       - https://valdagon.github.io/card/
       - https://github.com/ValDagon/card
-    confidence: high
 
   - id: comic-translator
     world: hobby
     status: paused
     public_title: AI comic translator
-    blurb: Portfolio piece on Google Cloud. Not active development.
-    stack: [Python, Google Cloud, OpenRouter]
+    blurb: "Портфолио-переводчик комиксов. Деплой в Google Cloud. Сейчас не разрабатываю."
+    stack: [Python, Google Cloud]
     updated: 2026-08-24
     links: []
-    confidence: high
-    notes_internal: ValDagon/ai-comic-translator private
 
   - id: aqua-world
     world: hobby
     status: done
-    public_title: Aqua World (archive)
-    blurb: Legacy PHP browser game. Zip archive only. Not unpacked.
+    public_title: Aqua World
+    blurb: "Старая браузерная игра на PHP и MySQL. Архив, не живая разработка."
     stack: [PHP, MySQL]
     updated: 2026-08-24
     links: []
-    confidence: high
-
-  - id: crystal-os
-    world: hobby
-    status: now
-    public_title: Crystal OS
-    blurb: Personal agent + Obsidian operating system. Include-in-hobby is a gate (it is the OS, not a fourth column).
-    stack: [Obsidian, Cursor, Python]
-    updated: 2026-08-25
-    links: []
-    confidence: medium
-    notes_internal: omit if human says OS is not hobby
