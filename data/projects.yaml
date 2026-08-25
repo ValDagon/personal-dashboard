@@ -2,13 +2,14 @@ updated: 2026-08-25
 
 projects:
   - id: swift-agent
-    world: freelance
+    world: hobby
     status: now
     public_title: swift-agent
-    blurb: "Заказ: нативный headless AI-агент macOS на Swift 6. Управление через Telegram, интеллект — локальная Ollama, память SQLite (GRDB, FTS5), токен в Keychain. Этапы 1–3 сданы: каркас, стриминг ответа, хранилище. Репозиторий закрытый."
+    blurb: "Личный open-source проект: нативный headless AI-агент macOS на Swift 6. Telegram, локальная Ollama, память SQLite (GRDB, FTS5), токен в Keychain. В разработке; этапы 1–3 готовы."
     stack: [Swift 6, Telegram, Ollama, SQLite, GRDB, macOS]
     updated: 2026-08-25
-    links: []
+    links:
+      - https://github.com/ValDagon/swift-agent
 
   - id: hr-telegram-sheets
     world: freelance
