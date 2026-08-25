@@ -59,24 +59,6 @@ pytest
 
 Откроется http://localhost:8501
 
-## Автозапуск на Mac
-
-После логина LaunchAgent поднимает доску на порту 8501. Шаблон: `deploy/com.valdagon.personal-dashboard.plist` (копия с абсолютными путями лежит в `~/Library/LaunchAgents/`).
-
-Остановить:
-
-```bash
-launchctl bootout gui/$(id -u)/com.valdagon.personal-dashboard
-```
-
-Снова включить:
-
-```bash
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.valdagon.personal-dashboard.plist
-```
-
-Логи: `~/Library/Logs/personal-dashboard/`.
-
 ## Что умеет экран
 
 - Шапка `/now`: по одной живой строке на мир, со статусом.
