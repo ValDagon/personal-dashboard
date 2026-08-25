@@ -157,7 +157,7 @@ def test_xlsx_export_not_empty() -> None:
 
 def test_status_palette_is_neon_not_gray() -> None:
     assert STATUS_COLORS == {
-        "now": "#3EC4FF",
+        "now": "#3DFF8A",
         "queued": "#FFB14A",
         "paused": "#FF6BB5",
     }
@@ -177,7 +177,7 @@ def test_status_palette_is_neon_not_gray() -> None:
         )
     )
     fills = [trace.marker.color for trace in fig.data]
-    assert fills == ["#3EC4FF", "#FFB14A", "#FF6BB5"]
+    assert fills == ["#3DFF8A", "#FFB14A", "#FF6BB5"]
     names = [trace.name for trace in fig.data]
     assert names == ["сейчас", "очередь", "пауза"]
     banned = ("#8a93a0", "#8A93A0", "#8AA0B8", "#E8F1FF", "#1a2332", "#1A2332")

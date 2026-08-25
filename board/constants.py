@@ -18,7 +18,7 @@ WORLD_COLORS = {
 
 # Open-status fills. Same family as worlds, independent map (never near-white or gray).
 STATUS_COLORS = {
-    "now": "#3EC4FF",
+    "now": "#3DFF8A",
     "queued": "#FFB14A",
     "paused": "#FF6BB5",
 }
