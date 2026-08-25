@@ -1,0 +1,13 @@
+---
+description: Python run and test conventions for this repo.
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python
+
+- Runner: `python -m venv .venv` then `pip install -r requirements.txt`. Do not invent a second toolchain.
+- Default verify: `pytest`. Lint if present: `ruff`.
+- Do not commit `venv/`, `.venv/`, `__pycache__/`, `.env`.
+- Pandas/Excel/SQL: no secrets in notebooks or YAML. Client names stay anonymized until the human stamps public names.
+- DuckDB reads local CSV/Parquet in `data/`. No cloud warehouse in v1.

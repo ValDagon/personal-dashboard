@@ -1,0 +1,15 @@
+---
+description: Streamlit UI must be distinctive, responsive, and stable.
+globs: "**/*.{py,css,html}"
+alwaysApply: false
+---
+
+# Web UI
+
+- Follow skill `crystal-frontend-ui` (reads `frontend-design` + `web-design-guidelines` + `hallmark`) **inside Streamlit limits**.
+- Hide default Streamlit chrome. Tokens in CSS, not inline hex in widgets.
+- Three worlds stay three columns (desktop) or three tabs (mobile) — never one merged feed.
+- Mobile-first: 375px must hold. No two-line primary controls.
+- Do not ship Next.js, Relomap stack, or invented metrics.
+- Do not commit `node_modules/`.
+- Before done: open the app in the browser and click a card plus the archive toggle.
