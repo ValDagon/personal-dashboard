@@ -1,4 +1,4 @@
-# Три мира
+# Персональный дашборд
 
 [![Python](https://img.shields.io/badge/Python-3.11+-1A2332?style=flat-square)](https://www.python.org/)
 [![ClickHouse](https://img.shields.io/badge/SQL-ClickHouse-FFCC00?style=flat-square&labelColor=1A2332)](https://clickhouse.com/docs/chdb)
@@ -9,7 +9,7 @@
 
 Резюме перечисляет инструменты. Этот репозиторий показывает, как ими собирается обзор: YAML как источник, pandas как таблица, **ClickHouse SQL** как слой фактов, Excel на выходе, экран на Streamlit.
 
-Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard). Ветка `hud-neon` — тёмная ops HUD; `main` пока светлая бумага.
+Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard). Тёмная ops HUD: фриланс янтарь, работа розовый, хобби циан.
 
 ```
 +---------------- /now ------------------+
@@ -58,6 +58,24 @@ pytest
 ```
 
 Откроется http://localhost:8501
+
+## Автозапуск на Mac
+
+После логина LaunchAgent поднимает доску на порту 8501. Шаблон: `deploy/com.valdagon.personal-dashboard.plist` (копия с абсолютными путями лежит в `~/Library/LaunchAgents/`).
+
+Остановить:
+
+```bash
+launchctl bootout gui/$(id -u)/com.valdagon.personal-dashboard
+```
+
+Снова включить:
+
+```bash
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.valdagon.personal-dashboard.plist
+```
+
+Логи: `~/Library/Logs/personal-dashboard/`.
 
 ## Что умеет экран
 

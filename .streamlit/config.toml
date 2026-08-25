@@ -1,4 +1,5 @@
 [theme]
+# Streamlit chrome stays cyan; world colors (work pink, hobby cyan) live in CSS and Plotly.
 base = "dark"
 primaryColor = "#3EC4FF"
 backgroundColor = "#0B1220"

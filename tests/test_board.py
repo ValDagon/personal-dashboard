@@ -138,7 +138,7 @@ def test_streamlit_app_runs() -> None:
     at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=30).run()
     assert not at.exception
     html_el = at.main.children[2]
-    assert "Сейчас" in html_el.body
+    assert "Персональный дашборд" in html_el.body
     assert 'class="desk"' in html_el.body
     at.run()
     assert not at.exception

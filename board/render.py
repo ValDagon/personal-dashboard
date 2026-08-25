@@ -148,8 +148,8 @@ def render_board(board: BoardData) -> str:
     return f"""
 <div class="desk">
   <header class="mast">
-    <p class="kicker">три мира · одна доска</p>
-    <h1>Сейчас</h1>
+    <p class="kicker">фриланс · работа · хобби</p>
+    <h1>Персональный дашборд</h1>
     <p class="lede">Фриланс, работа и хобби рядом, но не в одной куче. Карточка = целый проект. Закрытое спрятано в архив мира. Числа считаются ClickHouse SQL по YAML, не руками.</p>
   </header>
   <section class="now" aria-label="Сейчас по мирам">

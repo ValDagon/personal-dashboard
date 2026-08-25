@@ -7,9 +7,11 @@
   --ink: #e8f1ff;
   --muted: #8aa0b8;
   --rule: #1a3d52;
-  --ochre: #ffb14a;
-  --steel: #3ec4ff;
-  --moss: #ff6bb5;
+  /* Worlds: freelance amber, work pink, hobby cyan. --steel stays cyan for HUD chrome
+     (focus, links, Streamlit primary) so widgets are not hot-pink. */
+  --ochre: #ffb14a; /* freelance */
+  --moss: #ff6bb5; /* work */
+  --steel: #3ec4ff; /* hobby + chrome */
   --glow-ochre: 0 0 14px color-mix(in srgb, var(--ochre) 40%, transparent);
   --glow-steel: 0 0 14px color-mix(in srgb, var(--steel) 40%, transparent);
   --glow-moss: 0 0 14px color-mix(in srgb, var(--moss) 40%, transparent);
@@ -113,12 +115,12 @@ h1, h2, h3, h4 {
   text-shadow: var(--glow-ochre);
 }
 .now-work .now-v {
-  color: var(--steel);
-  text-shadow: var(--glow-steel);
-}
-.now-hobby .now-v {
   color: var(--moss);
   text-shadow: var(--glow-moss);
+}
+.now-hobby .now-v {
+  color: var(--steel);
+  text-shadow: var(--glow-steel);
 }
 
 .now-stamp {
@@ -143,8 +145,8 @@ h1, h2, h3, h4 {
 }
 
 .mix-freelance { border-top: 4px solid var(--ochre); }
-.mix-work { border-top: 4px solid var(--steel); }
-.mix-hobby { border-top: 4px solid var(--moss); }
+.mix-work { border-top: 4px solid var(--moss); }
+.mix-hobby { border-top: 4px solid var(--steel); }
 
 .mix-k {
   display: block;
@@ -169,12 +171,12 @@ h1, h2, h3, h4 {
   text-shadow: var(--glow-ochre);
 }
 .mix-work .mix-n {
-  color: var(--steel);
-  text-shadow: var(--glow-steel);
-}
-.mix-hobby .mix-n {
   color: var(--moss);
   text-shadow: var(--glow-moss);
+}
+.mix-hobby .mix-n {
+  color: var(--steel);
+  text-shadow: var(--glow-steel);
 }
 
 .mix-d {
@@ -242,8 +244,8 @@ h1, h2, h3, h4 {
 }
 
 .tab-freelance { box-shadow: inset 0 3px 0 var(--ochre); }
-.tab-work { box-shadow: inset 0 3px 0 var(--steel); }
-.tab-hobby { box-shadow: inset 0 3px 0 var(--moss); }
+.tab-work { box-shadow: inset 0 3px 0 var(--moss); }
+.tab-hobby { box-shadow: inset 0 3px 0 var(--steel); }
 
 .tab:focus-visible {
   outline: 2px solid var(--steel);
@@ -257,13 +259,13 @@ h1, h2, h3, h4 {
 }
 
 .tab-work:focus-visible {
-  outline-color: var(--steel);
-  box-shadow: inset 0 3px 0 var(--steel), var(--glow-steel);
+  outline-color: var(--moss);
+  box-shadow: inset 0 3px 0 var(--moss), var(--glow-moss);
 }
 
 .tab-hobby:focus-visible {
-  outline-color: var(--moss);
-  box-shadow: inset 0 3px 0 var(--moss), var(--glow-moss);
+  outline-color: var(--steel);
+  box-shadow: inset 0 3px 0 var(--steel), var(--glow-steel);
 }
 
 .triptych {
@@ -285,12 +287,12 @@ h1, h2, h3, h4 {
   background: color-mix(in srgb, var(--ochre) 7%, var(--panel));
 }
 .lane-work {
-  border-top: 4px solid var(--steel);
-  background: color-mix(in srgb, var(--steel) 7%, var(--panel));
-}
-.lane-hobby {
   border-top: 4px solid var(--moss);
   background: color-mix(in srgb, var(--moss) 7%, var(--panel));
+}
+.lane-hobby {
+  border-top: 4px solid var(--steel);
+  background: color-mix(in srgb, var(--steel) 7%, var(--panel));
 }
 
 .lane-freelance::before,
@@ -306,8 +308,8 @@ h1, h2, h3, h4 {
 }
 
 .lane-freelance::before { box-shadow: var(--glow-ochre); }
-.lane-work::before { box-shadow: var(--glow-steel); }
-.lane-hobby::before { box-shadow: var(--glow-moss); }
+.lane-work::before { box-shadow: var(--glow-moss); }
+.lane-hobby::before { box-shadow: var(--glow-steel); }
 
 .lane-head {
   display: flex;

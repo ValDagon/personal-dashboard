@@ -20,12 +20,12 @@ RULE = "#1A3D52"
 MUTED = "#8AA0B8"
 WORLD_COLORS = {
     "freelance": "#FFB14A",
-    "work": "#3EC4FF",
-    "hobby": "#FF6BB5",
+    "work": "#FF6BB5",
+    "hobby": "#3EC4FF",
 }
 
 st.set_page_config(
-    page_title="Три мира",
+    page_title="Персональный дашборд",
     page_icon="▣",
     layout="wide",
     initial_sidebar_state="collapsed",
