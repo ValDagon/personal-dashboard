@@ -1,6 +1,6 @@
 # Проверка
 
-Дата: 2026-08-25. Стек: pytest 12, Streamlit AppTest, локальный HTTP.
+Дата: 2026-08-25. Стек: pytest 14, Streamlit AppTest, локальный HTTP.
 
 ## DoD
 
@@ -15,13 +15,13 @@
 | xlsx | GO | PK-заголовок zip |
 | Найм | GO | одна карточка `bi-seat` |
 | SQL на экране | GO | AppTest грузит `app.py` без исключения |
-| Узкий экран | partial GO | CSS вкладки; живой 375px — смотреть в браузере |
+| Статус-чарт | GO | fills = cyan / amber / pink, не серый и не белый |
 
 ## Команды
 
 ```
 .venv/bin/pytest -q
-# 12 passed
+# 14 passed
 streamlit run app.py
 ```
 

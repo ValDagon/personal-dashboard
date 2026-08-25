@@ -2,27 +2,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import plotly.graph_objects as go
 import streamlit as st
 
 from board import queries
-from board.constants import WORLD_LABEL
+from board.charts import open_by_status_figure, open_by_world_figure
 from board.export import open_projects_xlsx
 from board.load import load_board
 from board.render import render_board
 
 ROOT = Path(__file__).resolve().parent
 CSS = (ROOT / "assets" / "style.css").read_text(encoding="utf-8")
-WORLD_ORDER = ["freelance", "work", "hobby"]
-SCENE = "#0B1220"
-INK = "#E8F1FF"
-RULE = "#1A3D52"
-MUTED = "#8AA0B8"
-WORLD_COLORS = {
-    "freelance": "#FFB14A",
-    "work": "#FF6BB5",
-    "hobby": "#3EC4FF",
-}
 
 st.set_page_config(
     page_title="Персональный дашборд",
@@ -41,6 +30,7 @@ st.markdown(
 )
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
 
+
 @st.cache_resource
 def _cached_board(mtime: float):
     return load_board()
@@ -54,71 +44,11 @@ else:
     st.markdown(html, unsafe_allow_html=True)
 
 mix = board.open_mix()
-labels = [WORLD_LABEL[w] for w in WORLD_ORDER]
-colors = [WORLD_COLORS[w] for w in WORLD_ORDER]
-
-
-def _mix_value(world: str, col: str) -> int:
-    hit = mix.loc[mix["world"] == world, col]
-    return int(hit.iloc[0]) if not hit.empty else 0
-
-
-open_x = [_mix_value(world, "open_n") for world in WORLD_ORDER]
-fig_open = go.Figure(
-    go.Bar(
-        x=open_x,
-        y=labels,
-        orientation="h",
-        marker_color=colors,
-        hovertemplate="%{y}: %{x}<extra></extra>",
-    )
-)
-fig_open.update_layout(
-    title="Открытые карточки",
-    margin=dict(l=8, r=8, t=40, b=8),
-    height=200,
-    paper_bgcolor=SCENE,
-    plot_bgcolor=SCENE,
-    font=dict(family="IBM Plex Sans, sans-serif", color=INK, size=13),
-    xaxis=dict(title="штук", dtick=1, gridcolor=RULE),
-    yaxis=dict(title=""),
-    showlegend=False,
-)
-
-fig_status = go.Figure()
-status_cols = [
-    ("now_n", "сейчас", INK),
-    ("queued_n", "очередь", WORLD_COLORS["freelance"]),
-    ("paused_n", "пауза", MUTED),
-]
-for col, name, color in status_cols:
-    fig_status.add_trace(
-        go.Bar(
-            name=name,
-            x=labels,
-            y=[_mix_value(world, col) for world in WORLD_ORDER],
-            marker_color=color,
-            hovertemplate="%{x} · " + name + ": %{y}<extra></extra>",
-        )
-    )
-fig_status.update_layout(
-    title="Открытые по статусу",
-    barmode="stack",
-    margin=dict(l=8, r=8, t=40, b=8),
-    height=220,
-    paper_bgcolor=SCENE,
-    plot_bgcolor=SCENE,
-    font=dict(family="IBM Plex Sans, sans-serif", color=INK, size=13),
-    yaxis=dict(title="штук", dtick=1, gridcolor=RULE),
-    xaxis=dict(title=""),
-    legend=dict(orientation="h", y=-0.2),
-)
-
 left, right = st.columns(2)
 with left:
-    st.plotly_chart(fig_open, width="stretch")
+    st.plotly_chart(open_by_world_figure(mix), width="stretch")
 with right:
-    st.plotly_chart(fig_status, width="stretch")
+    st.plotly_chart(open_by_status_figure(mix), width="stretch")
 
 st.download_button(
     label="Скачать открытые в Excel",

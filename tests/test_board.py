@@ -1,8 +1,10 @@
 from pathlib import Path
 
+import pandas as pd
 from streamlit.testing.v1 import AppTest
 
-from board.constants import ARCHIVE_STATUSES, OPEN_STATUSES, WORLDS
+from board.charts import open_by_status_figure
+from board.constants import ARCHIVE_STATUSES, OPEN_STATUSES, STATUS_COLORS, WORLD_COLORS, WORLDS
 from board.export import open_projects_xlsx
 from board.load import load_board
 from board import queries
@@ -132,6 +134,26 @@ def test_xlsx_export_not_empty() -> None:
     payload = open_projects_xlsx(board.open_frame())
     assert payload[:2] == b"PK"
     assert len(payload) > 100
+
+
+def test_status_palette_is_neon_not_gray() -> None:
+    assert STATUS_COLORS["now"] == WORLD_COLORS["hobby"] == "#3EC4FF"
+    assert STATUS_COLORS["queued"] == WORLD_COLORS["freelance"] == "#FFB14A"
+    assert STATUS_COLORS["paused"] == WORLD_COLORS["work"] == "#FF6BB5"
+    fig = open_by_status_figure(
+        pd.DataFrame(
+            {
+                "world": ["freelance", "work", "hobby"],
+                "now_n": [0, 1, 1],
+                "queued_n": [2, 0, 0],
+                "paused_n": [0, 0, 1],
+            }
+        )
+    )
+    fills = [trace.marker.color for trace in fig.data]
+    assert fills == ["#3EC4FF", "#FFB14A", "#FF6BB5"]
+    names = [trace.name for trace in fig.data]
+    assert names == ["сейчас", "очередь", "пауза"]
 
 
 def test_streamlit_app_runs() -> None:
