@@ -5,6 +5,7 @@ from pathlib import Path
 import plotly.graph_objects as go
 import streamlit as st
 
+from board import queries
 from board.constants import WORLD_LABEL
 from board.export import open_projects_xlsx
 from board.load import load_board
@@ -12,6 +13,12 @@ from board.render import render_board
 
 ROOT = Path(__file__).resolve().parent
 CSS = (ROOT / "assets" / "style.css").read_text(encoding="utf-8")
+WORLD_ORDER = ["freelance", "work", "hobby"]
+WORLD_COLORS = {
+    "freelance": "#c45c26",
+    "work": "#2f5c8f",
+    "hobby": "#3d6b4f",
+}
 
 st.set_page_config(
     page_title="Три мира",
@@ -37,29 +44,30 @@ if hasattr(st, "html"):
 else:
     st.markdown(html, unsafe_allow_html=True)
 
-counts = board.open_counts()
-label_map = WORLD_LABEL
-ordered = ["freelance", "work", "hobby"]
-y = [label_map[w] for w in ordered]
-x = []
-for world in ordered:
-    hit = counts.loc[counts["world"] == world, "open_count"]
-    x.append(int(hit.iloc[0]) if not hit.empty else 0)
-colors = ["#c45c26", "#2f5c8f", "#3d6b4f"]
+mix = board.open_mix()
+labels = [WORLD_LABEL[w] for w in WORLD_ORDER]
+colors = [WORLD_COLORS[w] for w in WORLD_ORDER]
 
-fig = go.Figure(
+
+def _mix_value(world: str, col: str) -> int:
+    hit = mix.loc[mix["world"] == world, col]
+    return int(hit.iloc[0]) if not hit.empty else 0
+
+
+open_x = [_mix_value(world, "open_n") for world in WORLD_ORDER]
+fig_open = go.Figure(
     go.Bar(
-        x=x,
-        y=y,
+        x=open_x,
+        y=labels,
         orientation="h",
         marker_color=colors,
         hovertemplate="%{y}: %{x}<extra></extra>",
     )
 )
-fig.update_layout(
-    title="Открытые проекты по мирам",
+fig_open.update_layout(
+    title="Открытые карточки",
     margin=dict(l=8, r=8, t=40, b=8),
-    height=180,
+    height=200,
     paper_bgcolor="#eef1f4",
     plot_bgcolor="#eef1f4",
     font=dict(family="IBM Plex Sans, sans-serif", color="#1a2332", size=13),
@@ -67,7 +75,41 @@ fig.update_layout(
     yaxis=dict(title=""),
     showlegend=False,
 )
-st.plotly_chart(fig, width="stretch")
+
+fig_status = go.Figure()
+status_cols = [
+    ("now_n", "сейчас", "#1a2332"),
+    ("queued_n", "очередь", "#c45c26"),
+    ("paused_n", "пауза", "#8a93a0"),
+]
+for col, name, color in status_cols:
+    fig_status.add_trace(
+        go.Bar(
+            name=name,
+            x=labels,
+            y=[_mix_value(world, col) for world in WORLD_ORDER],
+            marker_color=color,
+            hovertemplate="%{x} · " + name + ": %{y}<extra></extra>",
+        )
+    )
+fig_status.update_layout(
+    title="Открытые по статусу",
+    barmode="stack",
+    margin=dict(l=8, r=8, t=40, b=8),
+    height=220,
+    paper_bgcolor="#eef1f4",
+    plot_bgcolor="#eef1f4",
+    font=dict(family="IBM Plex Sans, sans-serif", color="#1a2332", size=13),
+    yaxis=dict(title="штук", dtick=1, gridcolor="#c5ccd6"),
+    xaxis=dict(title=""),
+    legend=dict(orientation="h", y=-0.2),
+)
+
+left, right = st.columns(2)
+with left:
+    st.plotly_chart(fig_open, width="stretch")
+with right:
+    st.plotly_chart(fig_status, width="stretch")
 
 st.download_button(
     label="Скачать открытые в Excel",
@@ -76,4 +118,14 @@ st.download_button(
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 )
 
-st.caption("YAML → pandas → DuckDB. Локальный запуск, без облачного хостинга этой доски.")
+with st.expander("SQL, которым считаются цифры"):
+    st.caption(
+        f"ClickHouse {board.engine.version()} внутри процесса (chDB). "
+        "Отдельный сервер для клона репозитория не нужен."
+    )
+    for title, sql in queries.INSPECTOR:
+        st.markdown(f"**{title}**")
+        st.code(sql.strip(), language="sql")
+        st.dataframe(board.query(sql), hide_index=True, width="stretch")
+
+st.caption("YAML → pandas → ClickHouse MergeTree → Streamlit. Без облачного хостинга этой доски.")

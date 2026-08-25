@@ -9,7 +9,7 @@
 
 | | |
 |---|---|
-| **Live** | Python · pandas · DuckDB · Streamlit · Plotly |
+| **Live** | Python · pandas · ClickHouse (chDB) · Streamlit · Plotly |
 | **Проверка** | `pytest` · `streamlit run app.py` |
 
 ## 1. Миссия
@@ -27,7 +27,7 @@
 | Путь | Зачем |
 |---|---|
 | `app.py` | экран |
-| `board/` | YAML, DuckDB, HTML, xlsx |
+| `board/` | YAML, ClickHouse, HTML, xlsx |
 | `data/projects.yaml` | SSOT карточек |
 | `docs/10-product-spec.md` | спека |
 | `tests/` | слой данных |

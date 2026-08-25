@@ -22,7 +22,8 @@ updated: 2026-08-25
 | Три мира, единица = проект, все открытые, архив сворачивается | Три колонки / вкладки |
 | Relomap и визитка — реальные имена | URL визитки и Relomap можно |
 | HR-бот без фамилий; прочие заказчики скрыты | Нет фамилий и отказанных заказов с сессиями |
-| Кейс Adult Income | Мир хобби |
+| Кейс Adult Income | Мир хобби, в архиве (`done`) |
+| Личная визитка | Хобби, статус пауза |
 | Проекты найма неизвестны | Одна честная карточка роли, без выдуманных тикетов |
 
 ## DoD
@@ -33,11 +34,12 @@ updated: 2026-08-25
 - [x] Сделано + сдано клиенту в свёрнутом архиве
 - [x] Шапка `/now` по миру + дата
 - [x] Drill-in: стек, текст, публичные ссылки
-- [x] YAML → pandas → DuckDB
+- [x] YAML → pandas → ClickHouse (chDB MergeTree)
 - [x] Экспорт открытых в `.xlsx`
 - [x] README: зачем, стек, запуск, модель, легенда
 - [x] Нет секретов и выдуманных KPI
-- [x] Узкий экран: вкладки мира, `overflow-x: clip`, `prefers-reduced-motion`
+- [x] Свежесть карточек и смесь статусов считаются ClickHouse SQL, не вручную
+- [x] Блок живых SQL-запросов на экране
 
 ## Non-goals
 
@@ -55,12 +57,12 @@ updated: 2026-08-25
 ```mermaid
 flowchart TB
   yaml["data/projects.yaml"] --> pandas["pandas"]
-  pandas --> duck["DuckDB views"]
-  duck --> st["Streamlit триптих"]
+  pandas --> ch["ClickHouse MergeTree"]
+  ch --> st["Streamlit триптих"]
   st --> now["лента сейчас"]
   st --> cols["три мира"]
   cols --> arch["архив"]
-  duck --> xlsx["xlsx"]
+  ch --> xlsx["xlsx"]
 ```
 
 ## Инварианты

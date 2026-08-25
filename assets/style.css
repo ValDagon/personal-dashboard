@@ -1,5 +1,5 @@
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 */
-/* Shift-board: three warehouse lanes. Tokens only after this block. */
+/* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V4 */
+/* Shift-board: three warehouse lanes plus a ClickHouse tally strip. */
 
 :root {
   --paper: #eef1f4;
@@ -65,7 +65,7 @@ h1, h2, h3, h4 {
 }
 
 .lede {
-  max-width: 40rem;
+  max-width: 44rem;
   color: var(--muted);
   margin: 0 0 1.25rem;
   line-height: 1.45;
@@ -78,7 +78,7 @@ h1, h2, h3, h4 {
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   padding: 0.7rem 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .now-cell {
@@ -114,6 +114,79 @@ h1, h2, h3, h4 {
   margin: 0.2rem 0 0;
 }
 
+.mix-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.55rem;
+  margin: 0 0 0.85rem;
+}
+
+.mix-cell {
+  min-width: 0;
+  padding: 0.55rem 0.7rem 0.5rem;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+}
+
+.mix-freelance { border-top: 4px solid var(--ochre); }
+.mix-work { border-top: 4px solid var(--steel); }
+.mix-hobby { border-top: 4px solid var(--moss); }
+
+.mix-k {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mix-n {
+  display: block;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0.1rem 0;
+}
+
+.mix-freelance .mix-n { color: var(--ochre); }
+.mix-work .mix-n { color: var(--steel); }
+.mix-hobby .mix-n { color: var(--moss); }
+
+.mix-d {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  margin: 0 0 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lg {
+  width: 0.55rem;
+  height: 0.55rem;
+  display: inline-block;
+  border: 1px solid var(--rule);
+}
+
+.lg-now { background: var(--ink); border-color: var(--ink); }
+.lg-queued { background: var(--ochre); border-color: var(--ochre); }
+.lg-paused { background: #8a93a0; border-color: #8a93a0; }
+.lg-done { background: var(--moss); border-color: var(--moss); }
+
 .world-switch {
   display: flex;
   gap: 0.4rem;
@@ -136,6 +209,10 @@ h1, h2, h3, h4 {
   text-overflow: ellipsis;
 }
 
+.tab-freelance { box-shadow: inset 0 3px 0 var(--ochre); }
+.tab-work { box-shadow: inset 0 3px 0 var(--steel); }
+.tab-hobby { box-shadow: inset 0 3px 0 var(--moss); }
+
 .tab:focus-visible {
   outline: 2px solid var(--steel);
   outline-offset: 2px;
@@ -154,9 +231,18 @@ h1, h2, h3, h4 {
   padding: 0.85rem 0.85rem 1rem;
 }
 
-.lane-freelance { border-top: 4px solid var(--ochre); }
-.lane-work { border-top: 4px solid var(--steel); }
-.lane-hobby { border-top: 4px solid var(--moss); }
+.lane-freelance {
+  border-top: 4px solid var(--ochre);
+  background: color-mix(in srgb, var(--ochre) 9%, var(--panel));
+}
+.lane-work {
+  border-top: 4px solid var(--steel);
+  background: color-mix(in srgb, var(--steel) 9%, var(--panel));
+}
+.lane-hobby {
+  border-top: 4px solid var(--moss);
+  background: color-mix(in srgb, var(--moss) 9%, var(--panel));
+}
 
 .lane-head {
   display: flex;
@@ -172,11 +258,11 @@ h1, h2, h3, h4 {
   font-weight: 600;
 }
 
-.count {
+.mix {
+  margin: 0.2rem 0 0;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--muted);
-  white-space: nowrap;
 }
 
 .card {
@@ -213,7 +299,7 @@ h1, h2, h3, h4 {
   flex: 0 0 auto;
 }
 
-.status-now .pill { border-color: var(--ink); }
+.status-now .pill { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 .status-queued .pill { color: var(--ochre); border-color: var(--ochre); }
 .status-paused .pill { color: var(--muted); }
 .status-done .pill,
@@ -306,6 +392,9 @@ h1, h2, h3, h4 {
   .now-stamp {
     grid-column: 1 / -1;
   }
+  .mix-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   .world-switch { display: none; }
   .triptych {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -316,7 +405,6 @@ h1, h2, h3, h4 {
 
 @media (prefers-reduced-motion: reduce) {
   * {
-    transition: none !important;
     animation: none !important;
   }
 }

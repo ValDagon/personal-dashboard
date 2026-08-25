@@ -1,8 +1,9 @@
-# Intended runtime after spec gate. Do not treat as a shipped app.
+# Intended runtime.
 pandas>=2.2
-duckdb>=1.2
+chdb>=4.0
 streamlit>=1.40
 plotly>=5.24
 openpyxl>=3.1
 pyyaml>=6.0
+pyarrow>=13.0
 pytest>=8.0

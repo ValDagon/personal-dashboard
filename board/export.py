@@ -17,8 +17,21 @@ def open_projects_xlsx(frame: pd.DataFrame) -> bytes:
     rows["ссылки"] = rows["links"].apply(
         lambda value: " ".join(value) if isinstance(value, list) else ""
     )
+    if "stale_days" in rows.columns:
+        rows["дней_без_обновления"] = rows["stale_days"]
+    else:
+        rows["дней_без_обновления"] = 0
     export = rows[
-        ["мир", "public_title", "статус", "blurb", "стек", "updated", "ссылки"]
+        [
+            "мир",
+            "public_title",
+            "статус",
+            "blurb",
+            "стек",
+            "updated",
+            "дней_без_обновления",
+            "ссылки",
+        ]
     ].rename(
         columns={
             "public_title": "проект",

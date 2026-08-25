@@ -3,21 +3,25 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-import duckdb
 import pandas as pd
 import yaml
 
-from .constants import ARCHIVE_STATUSES, OPEN_STATUSES, STATUSES, WORLDS
+from .constants import ARCHIVE_STATUSES, OPEN_STATUSES, STATUS_LABEL, STATUSES, WORLDS
+from .engine import ClickHouseEngine
+from . import queries
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_YAML = ROOT / "data" / "projects.yaml"
 
 
-@dataclass(frozen=True)
+@dataclass
 class BoardData:
     updated: str
     frame: pd.DataFrame
-    connection: duckdb.DuckDBPyConnection
+    engine: ClickHouseEngine
+
+    def query(self, sql: str) -> pd.DataFrame:
+        return self.engine.query_df(sql)
 
     def open_frame(self) -> pd.DataFrame:
         return self.frame[self.frame["is_open"]].copy()
@@ -40,17 +44,28 @@ class BoardData:
         now = rows[rows["status"] == "now"]
         pick = now if not now.empty else rows
         title = str(pick.iloc[0]["public_title"])
-        return title
+        status = str(pick.iloc[0]["status"])
+        return f"{title} · {STATUS_LABEL[status]}"
 
     def open_counts(self) -> pd.DataFrame:
-        return self.connection.execute(
-            """
-            SELECT world, COUNT(*) AS open_count
-            FROM open_by_world
-            GROUP BY world
-            ORDER BY world
-            """
-        ).df()
+        return self.query(queries.SQL_OPEN_COUNTS)
+
+    def open_mix(self) -> pd.DataFrame:
+        return self.query(queries.SQL_OPEN_MIX)
+
+    def mix_for(self, world: str) -> dict[str, float]:
+        mix = self.open_mix()
+        hit = mix.loc[mix["world"] == world]
+        if hit.empty:
+            return {"now_n": 0, "queued_n": 0, "paused_n": 0, "open_n": 0, "avg_stale_days": 0}
+        row = hit.iloc[0]
+        return {
+            "now_n": int(row["now_n"]),
+            "queued_n": int(row["queued_n"]),
+            "paused_n": int(row["paused_n"]),
+            "open_n": int(row["open_n"]),
+            "avg_stale_days": float(row["avg_stale_days"]),
+        }
 
 
 def _normalize(frame: pd.DataFrame) -> pd.DataFrame:
@@ -91,29 +106,33 @@ def _normalize(frame: pd.DataFrame) -> pd.DataFrame:
     return out.reset_index(drop=True)
 
 
+def _sql_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    sql = pd.DataFrame(
+        {
+            "id": frame["id"].astype(str),
+            "world": frame["world"].astype(str),
+            "status": frame["status"].astype(str),
+            "public_title": frame["public_title"].astype(str),
+            "blurb": frame["blurb"].astype(str),
+            "stack": frame["stack"].map(lambda value: ", ".join(value)),
+            "links": frame["links"].map(lambda value: " ".join(value)),
+            "updated": frame["updated"].astype(str),
+            "is_open": frame["is_open"].astype("uint8"),
+            "is_archive": frame["is_archive"].astype("uint8"),
+            "hire_private": frame["hire_private"].astype("uint8"),
+        }
+    )
+    return sql
+
+
 def load_board(path: Path | None = None) -> BoardData:
     yaml_path = path or DEFAULT_YAML
     raw = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
     updated = str(raw.get("updated", ""))
     projects = raw.get("projects") or []
     frame = _normalize(pd.DataFrame(projects))
-
-    connection = duckdb.connect(":memory:")
-    connection.register("projects", frame)
-    connection.execute(
-        """
-        CREATE VIEW open_by_world AS
-        SELECT *
-        FROM projects
-        WHERE is_open
-        """
-    )
-    connection.execute(
-        """
-        CREATE VIEW archive_by_world AS
-        SELECT *
-        FROM projects
-        WHERE is_archive
-        """
-    )
-    return BoardData(updated=updated, frame=frame, connection=connection)
+    engine = ClickHouseEngine(_sql_frame(frame))
+    stale = engine.query_df(queries.SQL_STALE)
+    frame = frame.merge(stale, on="id", how="left")
+    frame["stale_days"] = frame["stale_days"].fillna(0).astype(int)
+    return BoardData(updated=updated, frame=frame, engine=engine)

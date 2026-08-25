@@ -40,7 +40,7 @@ projects:
 
   - id: adult-income-case
     world: hobby
-    status: paused
+    status: done
     public_title: "Кейс Adult Income"
     blurb: "Учебно-боевой BI-контур. pandas, ClickHouse, Excel, Streamlit, Tableau. Репозиторий приватный, ссылку не кладу."
     stack: [Python, pandas, ClickHouse, Excel, Streamlit, Tableau]
@@ -59,7 +59,7 @@ projects:
 
   - id: personal-card
     world: hobby
-    status: done
+    status: paused
     public_title: "Личная визитка"
     blurb: "Мультиязычная страница. GitHub Pages. Стек HTML, CSS, JS."
     stack: [HTML, CSS, JS, GitHub Pages]

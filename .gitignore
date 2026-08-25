@@ -16,3 +16,6 @@ dist/
 build/
 *.egg-info/
 .hallmark/
+.chdb/
+*.parquet
+
