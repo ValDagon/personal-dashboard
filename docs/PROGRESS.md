@@ -14,6 +14,7 @@
 | 2026-08-25 | **Гейт.** RU, GitHub-only, adult-bi в хобби, найм без кейсов, HR-бот без фамилий. Streamlit-триптих + pytest. |
 | 2026-08-25 | **Rename.** GitHub и локальная папка: `personal-dashboard`. |
 | 2026-08-25 | **ClickHouse.** DuckDB снят. chDB MergeTree, визитка в паузе, Adult Income в архиве, SQL на экране. |
+| 2026-08-25 | **Релизный полиш.** Статус-чарт: сейчас `#3EC4FF`, очередь `#FFB14A`, пауза `#FF6BB5` (легенда = fill). Константы в `board/constants.py`. pytest 14 passed. Автозапуска нет. |
 | 2026-08-25 | **HUD palette.** Статус-чарт: cyan / amber / pink, без серого. |
 
 New rows go **at the end**.

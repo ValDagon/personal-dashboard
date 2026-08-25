@@ -9,7 +9,7 @@ Date checked: 2026-08-25.
 | Official Streamlit agent-skills pack | use if installed globally; not vendored here |
 | Evidence.dev as the app shell | reject (weak card/triptych) |
 | Next.js as the app shell | reject |
-| SQL via DuckDB | keep |
+| SQL via DuckDB | superseded — ClickHouse / chDB |
 
 ## HCI
 

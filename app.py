@@ -6,6 +6,7 @@ import streamlit as st
 
 from board import queries
 from board.charts import open_by_status_figure, open_by_world_figure
+from board.constants import css_custom_properties
 from board.export import open_projects_xlsx
 from board.load import load_board
 from board.render import render_board
@@ -28,7 +29,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+st.markdown(f"<style>{CSS}\n{css_custom_properties()}</style>", unsafe_allow_html=True)
 
 
 @st.cache_resource

@@ -3,8 +3,18 @@ from pathlib import Path
 import pandas as pd
 from streamlit.testing.v1 import AppTest
 
-from board.charts import open_by_status_figure
-from board.constants import ARCHIVE_STATUSES, OPEN_STATUSES, STATUS_COLORS, WORLD_COLORS, WORLDS
+from board.charts import open_by_status_figure, open_by_world_figure
+from board.constants import (
+    ARCHIVE_STATUSES,
+    HUD_INK,
+    HUD_PANEL,
+    HUD_SCENE,
+    OPEN_STATUSES,
+    STATUS_COLORS,
+    WORLD_COLORS,
+    WORLDS,
+    css_custom_properties,
+)
 from board.export import open_projects_xlsx
 from board.load import load_board
 from board import queries
@@ -78,7 +88,15 @@ def test_runtime_is_clickhouse_not_duckdb() -> None:
 
 
 def test_public_copy_has_no_private_leaks() -> None:
-    text = YAML.read_text(encoding="utf-8").lower()
+    public = "\n".join(
+        p.read_text(encoding="utf-8").lower()
+        for p in (
+            ROOT / "README.md",
+            ROOT / "app.py",
+            ROOT / "board" / "render.py",
+            YAML,
+        )
+    )
     banned = (
         "crystal",
         "obsidian",
@@ -87,9 +105,10 @@ def test_public_copy_has_no_private_leaks() -> None:
         "tdata",
         ".session",
         "bot_token",
+        "launchagent",
     )
     for word in banned:
-        assert word not in text
+        assert word not in public
     titles = set(board_titles())
     assert "HR-бот" in titles
     assert "Relomap" in titles
@@ -137,9 +156,16 @@ def test_xlsx_export_not_empty() -> None:
 
 
 def test_status_palette_is_neon_not_gray() -> None:
-    assert STATUS_COLORS["now"] == WORLD_COLORS["hobby"] == "#3EC4FF"
-    assert STATUS_COLORS["queued"] == WORLD_COLORS["freelance"] == "#FFB14A"
-    assert STATUS_COLORS["paused"] == WORLD_COLORS["work"] == "#FF6BB5"
+    assert STATUS_COLORS == {
+        "now": "#3EC4FF",
+        "queued": "#FFB14A",
+        "paused": "#FF6BB5",
+    }
+    assert WORLD_COLORS == {
+        "freelance": "#FFB14A",
+        "work": "#FF6BB5",
+        "hobby": "#3EC4FF",
+    }
     fig = open_by_status_figure(
         pd.DataFrame(
             {
@@ -154,6 +180,40 @@ def test_status_palette_is_neon_not_gray() -> None:
     assert fills == ["#3EC4FF", "#FFB14A", "#FF6BB5"]
     names = [trace.name for trace in fig.data]
     assert names == ["сейчас", "очередь", "пауза"]
+    banned = ("#8a93a0", "#8A93A0", "#8AA0B8", "#E8F1FF", "#1a2332", "#1A2332")
+    for hex_ in banned:
+        assert hex_.lower() not in [str(fill).lower() for fill in fills]
+    charts_src = (ROOT / "board" / "charts.py").read_text(encoding="utf-8")
+    assert "STATUS_COLORS" in charts_src
+    for hex_ in ("#8a93a0", "#8AA0B8"):
+        assert hex_.lower() not in charts_src.lower()
+    tokens = css_custom_properties()
+    for hex_ in STATUS_COLORS.values():
+        assert hex_ in tokens
+    css = (ROOT / "assets" / "style.css").read_text(encoding="utf-8")
+    assert "var(--status-now)" in css
+    assert "var(--status-queued)" in css
+    assert "var(--status-paused)" in css
+    world_fig = open_by_world_figure(
+        pd.DataFrame(
+            {
+                "world": ["freelance", "work", "hobby"],
+                "open_n": [2, 1, 2],
+            }
+        )
+    )
+    assert list(world_fig.data[0].marker.color) == [
+        "#FFB14A",
+        "#FF6BB5",
+        "#3EC4FF",
+    ]
+    theme = (ROOT / ".streamlit" / "config.toml").read_text(encoding="utf-8")
+    assert HUD_SCENE in theme
+    assert HUD_PANEL in theme
+    assert HUD_INK in theme
+    app_src = (ROOT / "app.py").read_text(encoding="utf-8")
+    assert "css_custom_properties" in app_src
+    assert "WORLD_COLORS =" not in app_src
 
 
 def test_streamlit_app_runs() -> None:

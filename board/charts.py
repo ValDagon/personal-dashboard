@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 
 from .constants import (
     HUD_INK,
+    HUD_PANEL,
     HUD_RULE,
     HUD_SCENE,
     STATUS_COLORS,
@@ -46,6 +47,8 @@ def open_by_world_figure(mix: pd.DataFrame) -> go.Figure:
         xaxis=dict(title="штук", dtick=1, gridcolor=HUD_RULE, color=HUD_INK),
         yaxis=dict(title="", color=HUD_INK),
         showlegend=False,
+        hoverlabel=dict(bgcolor=HUD_PANEL, font_color=HUD_INK, bordercolor=HUD_RULE),
+        colorway=[WORLD_COLORS[world] for world in WORLD_ORDER],
     )
     return fig
 
@@ -85,6 +88,11 @@ def open_by_status_figure(mix: pd.DataFrame) -> go.Figure:
             font=dict(color=HUD_INK),
             bgcolor="rgba(0,0,0,0)",
         ),
-        colorway=list(STATUS_COLORS.values()),
+        hoverlabel=dict(bgcolor=HUD_PANEL, font_color=HUD_INK, bordercolor=HUD_RULE),
+        colorway=[
+            STATUS_COLORS["now"],
+            STATUS_COLORS["queued"],
+            STATUS_COLORS["paused"],
+        ],
     )
     return fig

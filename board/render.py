@@ -5,7 +5,7 @@ from datetime import date
 
 import pandas as pd
 
-from .constants import OPEN_ORDER, STATUS_LABEL, WORLD_LABEL
+from .constants import OPEN_ORDER, STATUS_LABEL, WORLD_LABEL, WORLD_ORDER
 from .load import BoardData
 
 
@@ -117,7 +117,7 @@ def _lane(board: BoardData, world: str) -> str:
 
 def _mix_strip(board: BoardData) -> str:
     cells = []
-    for world in ("freelance", "work", "hobby"):
+    for world in WORLD_ORDER:
         mix = board.mix_for(world)
         stale = mix["avg_stale_days"]
         stale_txt = "—" if mix["open_n"] == 0 else f"{stale:g} дн. в среднем"
@@ -141,9 +141,9 @@ def render_board(board: BoardData) -> str:
           <span class="now-v">{_esc(board.now_line(world))}</span>
         </div>
         """
-        for world in ("freelance", "work", "hobby")
+        for world in WORLD_ORDER
     )
-    lanes = "".join(_lane(board, world) for world in ("freelance", "work", "hobby"))
+    lanes = "".join(_lane(board, world) for world in WORLD_ORDER)
     stamp = board.updated or date.today().isoformat()
     return f"""
 <div class="desk">

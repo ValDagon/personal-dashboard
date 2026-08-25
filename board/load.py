@@ -47,9 +47,6 @@ class BoardData:
         status = str(pick.iloc[0]["status"])
         return f"{title} · {STATUS_LABEL[status]}"
 
-    def open_counts(self) -> pd.DataFrame:
-        return self.query(queries.SQL_OPEN_COUNTS)
-
     def open_mix(self) -> pd.DataFrame:
         return self.query(queries.SQL_OPEN_MIX)
 

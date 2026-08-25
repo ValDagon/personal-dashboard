@@ -27,7 +27,7 @@ streamlit run app.py
 
 ## Ревью / рефакторинг
 
-Сделано в этом ходе: слой SQL вынесен в `board/engine.py` + `board/queries.py`; pandas остаётся нормализацией и сверкой; HTML не считает агрегаты руками. Убран DuckDB. Временный Parquet живёт в `TemporaryDirectory`, не в git.
+Сделано в этом ходе: палитра HUD и статусов — `board/constants.py` (Plotly + CSS custom properties). Снят мёртвый `open_counts`. Убран DuckDB. Временный Parquet живёт в `TemporaryDirectory`, не в git. Автозапуска нет.
 
 Оставлено сознательно: HTML-триптих, а не Plotly-карточки (текст и ссылки читаются как документ). chDB вместо clickhouse-server, чтобы `pip install && streamlit run` работал без Docker.
 

@@ -10,7 +10,10 @@
   --freelance: #ffb14a;
   --work: #ff6bb5;
   --hobby: #3ec4ff;
-  --chrome: var(--hobby);
+  --chrome: #3ec4ff;
+  --status-now: #3ec4ff;
+  --status-queued: #ffb14a;
+  --status-paused: #ff6bb5;
   --glow-freelance: 0 0 14px color-mix(in srgb, var(--freelance) 40%, transparent);
   --glow-work: 0 0 14px color-mix(in srgb, var(--work) 40%, transparent);
   --glow-hobby: 0 0 14px color-mix(in srgb, var(--hobby) 40%, transparent);
@@ -207,9 +210,9 @@ h1, h2, h3, h4 {
   border: 1px solid var(--rule);
 }
 
-.lg-now { background: var(--hobby); border-color: var(--hobby); }
-.lg-queued { background: var(--freelance); border-color: var(--freelance); }
-.lg-paused { background: var(--work); border-color: var(--work); }
+.lg-now { background: var(--status-now); border-color: var(--status-now); }
+.lg-queued { background: var(--status-queued); border-color: var(--status-queued); }
+.lg-paused { background: var(--status-paused); border-color: var(--status-paused); }
 .lg-done { background: var(--muted); border-color: var(--muted); }
 
 .world-switch {
@@ -368,9 +371,9 @@ h1, h2, h3, h4 {
   color: var(--ink);
 }
 
-.status-now .pill { color: var(--hobby); border-color: var(--hobby); }
-.status-queued .pill { color: var(--freelance); border-color: var(--freelance); }
-.status-paused .pill { color: var(--work); border-color: var(--work); }
+.status-now .pill { color: var(--status-now); border-color: var(--status-now); }
+.status-queued .pill { color: var(--status-queued); border-color: var(--status-queued); }
+.status-paused .pill { color: var(--status-paused); border-color: var(--status-paused); }
 .status-done .pill,
 .status-delivered .pill { color: var(--muted); border-color: var(--muted); }
 
@@ -458,9 +461,55 @@ h1, h2, h3, h4 {
   box-shadow: var(--glow-hobby);
 }
 
+[data-testid="stDownloadButton"] {
+  margin: 0.35rem 0 0.9rem;
+}
+
+[data-testid="stDownloadButton"] button {
+  background: var(--panel) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--radius) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-testid="stDownloadButton"] button:hover {
+  border-color: var(--chrome) !important;
+  background: color-mix(in srgb, var(--chrome) 12%, var(--panel)) !important;
+}
+
+[data-testid="stDownloadButton"] button:active {
+  background: color-mix(in srgb, var(--chrome) 18%, var(--panel)) !important;
+}
+
+[data-testid="stExpander"] {
+  background: var(--panel) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--radius) !important;
+}
+
+[data-testid="stExpander"] details {
+  border: none !important;
+  background: transparent !important;
+}
+
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] p,
+[data-testid="stExpander"] span {
+  color: var(--ink) !important;
+}
+
+[data-testid="stExpander"] summary {
+  font-family: var(--font-mono) !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.04em !important;
+}
+
 [data-testid="stDownloadButton"] button:focus-visible,
 [data-testid="stExpander"] summary:focus-visible {
-  outline: 2px solid var(--hobby) !important;
+  outline: 2px solid var(--chrome) !important;
   outline-offset: 2px;
   box-shadow: var(--glow-hobby);
 }
@@ -495,5 +544,6 @@ h1, h2, h3, h4 {
   *::before,
   *::after {
     animation: none !important;
+    transition: none !important;
   }
 }

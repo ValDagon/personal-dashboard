@@ -16,11 +16,11 @@ WORLD_COLORS = {
     "hobby": "#3EC4FF",
 }
 
-# Open-status fills for Plotly + CSS legend. Same family as worlds, not gray/white.
+# Open-status fills. Same family as worlds, independent map (never near-white or gray).
 STATUS_COLORS = {
-    "now": WORLD_COLORS["hobby"],
-    "queued": WORLD_COLORS["freelance"],
-    "paused": WORLD_COLORS["work"],
+    "now": "#3EC4FF",
+    "queued": "#FFB14A",
+    "paused": "#FF6BB5",
 }
 
 WORLD_LABEL = {
@@ -43,3 +43,23 @@ OPEN_STATUSES = ("now", "queued", "paused")
 ARCHIVE_STATUSES = ("done", "delivered")
 
 OPEN_ORDER = ("now", "queued", "paused")
+
+
+def css_custom_properties() -> str:
+    """Single source of truth for HUD tokens injected after assets/style.css."""
+    return (
+        ":root {\n"
+        f"  --paper: {HUD_SCENE};\n"
+        f"  --panel: {HUD_PANEL};\n"
+        f"  --ink: {HUD_INK};\n"
+        f"  --muted: {HUD_MUTED};\n"
+        f"  --rule: {HUD_RULE};\n"
+        f"  --freelance: {WORLD_COLORS['freelance']};\n"
+        f"  --work: {WORLD_COLORS['work']};\n"
+        f"  --hobby: {WORLD_COLORS['hobby']};\n"
+        f"  --chrome: {HUD_CHROME};\n"
+        f"  --status-now: {STATUS_COLORS['now']};\n"
+        f"  --status-queued: {STATUS_COLORS['queued']};\n"
+        f"  --status-paused: {STATUS_COLORS['paused']};\n"
+        "}\n"
+    )
