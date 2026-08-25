@@ -9,7 +9,7 @@
 
 Резюме перечисляет инструменты. Этот репозиторий показывает, как ими собирается обзор: YAML как источник, pandas как таблица, **ClickHouse SQL** как слой фактов, Excel на выходе, экран на Streamlit.
 
-Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard). Автозапуска нет: открывается командой ниже.
+Смотреть локально. Код: [github.com/ValDagon/personal-dashboard](https://github.com/ValDagon/personal-dashboard). Автозапуска при логине нет. Процесс лучше поднимать демоном (`scripts/serve.py`), а не в терминале агента — иначе Cursor шлёт ему SIGTERM.
 
 Тёмная ops HUD:
 
@@ -21,7 +21,7 @@
 | Фриланс | `#FFB14A` |
 | Работа | `#FF6BB5` |
 | Хобби | `#3EC4FF` |
-| Статус «сейчас» | `#3EC4FF` |
+| Статус «сейчас» | `#3DFF8A` |
 | Статус «очередь» | `#FFB14A` |
 | Статус «пауза» | `#FF6BB5` |
 
@@ -67,11 +67,13 @@
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-streamlit run app.py
+python3 scripts/serve.py
 pytest
 ```
 
-Откроется http://localhost:8501
+Откроется http://localhost:8501. Остановить: `python3 scripts/serve.py --stop`. Перезапустить после правок кода: `python3 scripts/serve.py --restart`.
+
+В интерактивном терминале по-прежнему можно `streamlit run app.py`.
 
 ## Что умеет экран
 
