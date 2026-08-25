@@ -18,6 +18,9 @@ class ClickHouseEngine:
         self._tmpdir = tempfile.TemporaryDirectory(prefix="personal-dashboard-ch-")
         self.parquet_path = Path(self._tmpdir.name) / "projects.parquet"
         sql_frame.to_parquet(self.parquet_path, index=False)
+        # chDB EmbeddedServer is a process singleton. A second Session(path)
+        # with a different directory fails; Session() is :memory: and shared.
+        # CREATE OR REPLACE keeps Streamlit reruns and pytest loads idempotent.
         self.session = chs.Session()
         path = self.parquet_path.as_posix()
         self.session.query(queries.CREATE_PROJECTS.format(path=path))

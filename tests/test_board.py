@@ -19,6 +19,16 @@ def test_three_worlds_and_statuses() -> None:
     assert set(board.frame["status"]) <= set(OPEN_STATUSES + ARCHIVE_STATUSES)
 
 
+def test_second_load_does_not_collide_on_projects_table() -> None:
+    first = load_board(YAML)
+    second = load_board(YAML)
+    assert len(first.frame) == len(second.frame) == 9
+    assert first.engine.version()
+    assert second.engine.version()
+    first.engine.close()
+    second.engine.close()
+
+
 def test_clickhouse_views_partition_open_and_archive() -> None:
     board = load_board(YAML)
     open_n = int(board.query(queries.SQL_OPEN_TOTAL).iloc[0]["n"])
@@ -126,4 +136,9 @@ def test_xlsx_export_not_empty() -> None:
 
 def test_streamlit_app_runs() -> None:
     at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=30).run()
+    assert not at.exception
+    html_el = at.main.children[2]
+    assert "Сейчас" in html_el.body
+    assert 'class="desk"' in html_el.body
+    at.run()
     assert not at.exception

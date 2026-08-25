@@ -3,7 +3,7 @@
 # Per clickhouse-best-practices schema-pk-cardinality-order:
 # ORDER BY starts with low-cardinality world, then status, then id.
 CREATE_PROJECTS = """
-CREATE TABLE projects
+CREATE OR REPLACE TABLE projects
 (
     id String,
     world LowCardinality(String),
@@ -35,14 +35,14 @@ FROM file('{path}', Parquet)
 """
 
 CREATE_OPEN_VIEW = """
-CREATE VIEW open_by_world AS
+CREATE OR REPLACE VIEW open_by_world AS
 SELECT *
 FROM projects
 WHERE is_open = 1
 """
 
 CREATE_ARCHIVE_VIEW = """
-CREATE VIEW archive_by_world AS
+CREATE OR REPLACE VIEW archive_by_world AS
 SELECT *
 FROM projects
 WHERE is_archive = 1

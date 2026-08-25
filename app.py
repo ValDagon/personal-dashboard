@@ -37,7 +37,12 @@ st.markdown(
 )
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
 
-board = load_board()
+@st.cache_resource
+def _cached_board(mtime: float):
+    return load_board()
+
+
+board = _cached_board((ROOT / "data" / "projects.yaml").stat().st_mtime)
 html = render_board(board)
 if hasattr(st, "html"):
     st.html(html)
